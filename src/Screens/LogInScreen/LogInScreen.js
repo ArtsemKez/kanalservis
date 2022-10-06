@@ -1,20 +1,21 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, Text} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 import {StatusBar} from "expo-status-bar";
+import {HeaderComponent} from "../../Components/Header/Header";
 
 export const LogInScreen = () => {
     return (
-                <SafeAreaView style={styles.logInScreen}>
+                <View style={styles.logInScreen}>
                     <StatusBar style="auto"/>
+                    <HeaderComponent/>
                     <Text>LogIn</Text>
-                </SafeAreaView>
+                </View>
 
     );
 };
 
 const styles = StyleSheet.create({
     logInScreen: {
-        flex: 1,
-        backgroundColor: '#fff',
+
     },
 });
