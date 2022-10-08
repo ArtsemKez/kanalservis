@@ -1,11 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Pressable, Text, TextInput, View} from "react-native";
 import {styles} from "./LogInForPhoneStyle";
+import {useSelector} from "react-redux";
+import {getIsError, getLoginInput, getPasswordInput} from "../../../Store/Selectors";
 
-export const LogInForPhone = () => {
+export const LogInForPhone = ({changeLoginInput, changePasswordInput, onSubmit}) => {
 
-    const [logIn, setLogIn] = useState('')
-    const [password, setPassword] = useState('')
+    const loginInput = useSelector(getLoginInput)
+    const passwordInput = useSelector(getPasswordInput)
+    const isError = useSelector(getIsError)
 
     return (
         <View style={styles.Body}>
@@ -13,19 +16,20 @@ export const LogInForPhone = () => {
             <View>
                 <Text style={styles.TitleInput}>LogIn</Text>
                 <TextInput style={styles.Input}
-                           value={logIn} onChangeText={setLogIn}
+                           value={loginInput} onChangeText={changeLoginInput}
                 />
             </View>
             <View>
                 <Text style={styles.TitleInput}>Password</Text>
                 <TextInput style={styles.Input}
-                           value={password} onChangeText={setPassword}
+                           value={passwordInput} onChangeText={changePasswordInput}
                            secureTextEntry={true}
                 />
             </View>
-            <Pressable style={styles.Button}>
+            <Pressable style={styles.Button} onPress={onSubmit}>
                 <Text style={styles.PressableText}>Submit</Text>
             </Pressable>
+            {isError ? <Text style={styles.errorMessage}>Invalid username or password</Text> : null}
         </View>
     );
 };

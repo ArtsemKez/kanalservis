@@ -18,7 +18,6 @@ const MainPage = () => {
 
     const Stack = createNativeStackNavigator();
     const isAuth = useSelector(getIsAuth)
-    console.log(isAuth)
 
     return (
         <NavigationContainer>

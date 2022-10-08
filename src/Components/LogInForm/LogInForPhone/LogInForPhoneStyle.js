@@ -49,5 +49,11 @@ export const styles = StyleSheet.create({
         fontSize: 24,
         lineHeight: 29,
         marginTop: 6
+    },
+    errorMessage: {
+        color: '#e80c0c',
+        fontSize: '20',
+        textAlign: 'center',
+        marginTop: 30,
     }
 })

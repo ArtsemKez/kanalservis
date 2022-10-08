@@ -2,7 +2,7 @@ import {StyleSheet} from "react-native";
 
 export const styles = StyleSheet.create({
     Body: {
-        height: 330,
+        minHeight: 330,
         minWidth: 480,
         borderWidth: 5,
         borderRadius: 10,
@@ -61,5 +61,11 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: 15,
+    },
+    errorMessage: {
+        color: '#e80c0c',
+        fontSize: '30',
+        textAlign: 'center',
+        marginTop: 30,
     }
 })
