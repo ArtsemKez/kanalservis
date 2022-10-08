@@ -1,13 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {Dimensions, Image, SafeAreaView, StyleSheet, View} from "react-native";
+import {Dimensions, Image, Pressable, SafeAreaView, StyleSheet, View} from "react-native";
 import logo from '../../Assets/Images/logo.png'
 import logoMin from '../../Assets/Images/logoMin.png'
 import logOut from '../../Assets/Images/logOut.png'
+import {useDispatch, useSelector} from "react-redux";
+import {getIsAuth} from "../../Store/Selectors";
+import {actions} from "../../Store/AuthReducer";
 
 export const HeaderComponent = () => {
 
     const screen = Dimensions.get("screen");
     const [isPhone, setIsPhone] = useState(false)
+
+    const dispatch = useDispatch()
+
+    const isAuth = useSelector(getIsAuth)
 
     useEffect(() => {
         if (screen.width <= 375) {
@@ -15,22 +22,23 @@ export const HeaderComponent = () => {
         }
     }, [])
 
+    const AuthLogOut = () => {
+        dispatch(actions.logOut())
+    }
+
     return (
         <SafeAreaView style={styles.Header}>
             {isPhone ?
                 <View style={styles.BodyPhone}>
                     <Image source={logoMin}/>
-                    <View>
-                        <Image source={logOut}/>
-                    </View>
+                    {isAuth ? <Pressable onPress={AuthLogOut}><Image source={logOut}/></Pressable> : null}
+
                 </View>
                 :
                 <View>
                     <View style={styles.BodyTablet}>
                         <Image source={logo}/>
-                        <View>
-                            <Image source={logOut}/>
-                        </View>
+                        {isAuth ? <Pressable onPress={AuthLogOut}><Image source={logOut}/></Pressable> : null}
                     </View>
                 </View>
             }
