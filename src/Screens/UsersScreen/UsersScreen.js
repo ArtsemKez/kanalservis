@@ -1,14 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, View} from "react-native";
 import {StatusBar} from "expo-status-bar";
 import {HeaderComponent} from "../../Components/Header/Header";
+import UsersComponent from "../../Components/UsersComponent/UsersComponent";
 
 export const UsersScreen = () => {
     return (
         <View style={styles.usersScreen}>
             <StatusBar style="auto"/>
             <HeaderComponent/>
-            <Text>Users</Text>
+            <UsersComponent/>
         </View>
     );
 };

@@ -12,3 +12,7 @@ export const getPasswordInput = createSelector(getPasswordInputSelector, (passwo
 const getIsErrorSelector = (state) => {return state.AuthPage.isError}
 export const getIsError = createSelector(getIsErrorSelector, (isError) => {return isError})
 
+const getUsersSelector = (state) => {return state.UsersPage.users}
+export const getUsers = createSelector(getUsersSelector, (users) => {return users})
+
+
