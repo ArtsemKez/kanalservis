@@ -1,5 +1,5 @@
 let initialState = {
-    isAuth: false,
+    isAuth: true,
     loginInput: '',
     passwordInput: '',
     authorizationData: {

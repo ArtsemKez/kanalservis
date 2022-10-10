@@ -5,5 +5,6 @@ export const instance = Axios.create({
 })
 
 export const usersAPI = {
-    getUsers() {return instance.get('users')}
+    getUsers() {return instance.get('users')},
+    getPost(userId) {return instance.get(`users/${userId}/posts`)}
 }

@@ -32,7 +32,6 @@ export const HeaderComponent = () => {
                 <View style={styles.BodyPhone}>
                     <Image source={logoMin}/>
                     {isAuth ? <Pressable onPress={AuthLogOut}><Image source={logOut}/></Pressable> : null}
-
                 </View>
                 :
                 <View>
