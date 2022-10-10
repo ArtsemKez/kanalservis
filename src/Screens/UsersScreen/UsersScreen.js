@@ -16,6 +16,6 @@ export const UsersScreen = () => {
 
 const styles = StyleSheet.create({
     usersScreen: {
-        
+
     },
 });

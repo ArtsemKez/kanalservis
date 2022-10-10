@@ -2,6 +2,7 @@ import {usersAPI} from "../API/API";
 
 let initialState = {
     users: [],
+    isLoader: false
 }
 
 const UsersReducer = (state = initialState, actions) => {
@@ -9,7 +10,6 @@ const UsersReducer = (state = initialState, actions) => {
 
         case 'GET_USERS':
             let usersArray = actions.users.data
-            console.log(usersArray)
             return {...state, users: usersArray}
 
         case 'GET_USER_POSTS':
@@ -24,6 +24,10 @@ const UsersReducer = (state = initialState, actions) => {
             user[actions.userId].photo = actions.userPhoto
             return {...state, users: user}
 
+        case 'TOGGLE_IS_LOADER':
+            let isLoader = actions.isLoader
+            return {...state, isLoader: isLoader}
+
         default:
             return state
     }
@@ -33,20 +37,28 @@ export const actions = {
     getUsers: (users) => ({type: 'GET_USERS', users}),
     getUserPosts: (userPosts) => ({type: 'GET_USER_POSTS', userPosts}),
     getUserPhoto: (userId, userPhoto) => ({type: 'GET_USER_PHOTO', userId, userPhoto}),
+    toggleIsLoader: (isLoader) => ({type: 'TOGGLE_IS_LOADER', isLoader})
 }
 
 export const requestUsers = () => {
     return async (dispatch) => {
+        dispatch(actions.toggleIsLoader(true))
         let Response = await usersAPI.getUsers()
         dispatch(actions.getUsers(Response))
+        dispatch(actions.toggleIsLoader(false))
     }
 }
 
 export const requestTitle = (userId) => {
     return async (dispatch) => {
+        dispatch(actions.toggleIsLoader(true))
         let userPosts = await usersAPI.getPost(userId)
         dispatch(actions.getUserPosts(userPosts.data))
+        if(userId === 10){
+            dispatch(actions.toggleIsLoader(false))
+        }
     }
+
 }
 
 export const requestPhoto = (userId) => {

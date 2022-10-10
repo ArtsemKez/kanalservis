@@ -15,4 +15,6 @@ export const getIsError = createSelector(getIsErrorSelector, (isError) => {retur
 const getUsersSelector = (state) => {return state.UsersPage.users}
 export const getUsers = createSelector(getUsersSelector, (users) => {return users})
 
+export const getIsLoader = (state) => {return state.UsersPage.isLoader}
+
 
