@@ -19,6 +19,11 @@ const UsersReducer = (state = initialState, actions) => {
             users[userKey].post = UserPost
             return {...state, users}
 
+        case 'GET_USER_PHOTO':
+            let user = state.users
+            user[actions.userId].photo = actions.userPhoto
+            return {...state, users: user}
+
         default:
             return state
     }
@@ -27,6 +32,7 @@ const UsersReducer = (state = initialState, actions) => {
 export const actions = {
     getUsers: (users) => ({type: 'GET_USERS', users}),
     getUserPosts: (userPosts) => ({type: 'GET_USER_POSTS', userPosts}),
+    getUserPhoto: (userId, userPhoto) => ({type: 'GET_USER_PHOTO', userId, userPhoto}),
 }
 
 export const requestUsers = () => {
@@ -42,6 +48,14 @@ export const requestTitle = (userId) => {
         dispatch(actions.getUserPosts(userPosts.data))
     }
 }
+
+export const requestPhoto = (userId) => {
+    return async (dispatch) => {
+        let userPhoto = await usersAPI.getPhoto(userId)
+        dispatch(actions.getUserPhoto(userId - 1, userPhoto.data[0].thumbnailUrl))
+    }
+}
+
 
 
 export default UsersReducer
