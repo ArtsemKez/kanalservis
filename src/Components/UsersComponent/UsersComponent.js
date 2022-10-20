@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Dimensions, SafeAreaView, ScrollView, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {getIsLoader, getUsers} from "../../Store/Selectors";
-import {requestTitle, requestUsers} from "../../Store/UsersReducer";
+import {requestPhoto, requestPosts, requestUsers} from "../../Store/UsersReducer";
 import {UserForPhone} from "./UserForPhone/UserForPhone";
 import {UserForTablet} from "./UserForTablet/UserForTablet";
 import {styles} from "./UsersComponentStyle";
@@ -25,22 +25,16 @@ const UsersComponent = () => {
 
     useEffect(() => {
         dispatch(requestUsers())
+        dispatch(requestPosts())
+        dispatch(requestPhoto())
     }, [])
 
-    useEffect(() => {
-        users.map((user) => {
-            dispatch(requestTitle(user.id))
-        })
-    }, [users])
-
-
-
     return (
-        <SafeAreaView style={{height: '89%'}}>
+        <SafeAreaView style={{height: '89%', justifyContent: 'center'}}>
             {isLoader ? <ActivityIndicator size="large" color="#0000ff" /> :
                 <View>
                     {isPhone ?
-                        <ScrollView style={{marginBottom: 10}}>
+                        <ScrollView style={{marginBottom: 120}}>
                             {users.map((user) => <UserForPhone user={user} key={user.id}/>)}
                         </ScrollView>
                         :

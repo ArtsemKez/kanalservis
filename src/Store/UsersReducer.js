@@ -6,6 +6,7 @@ let initialState = {
 }
 
 const UsersReducer = (state = initialState, actions) => {
+
     switch (actions.type) {
 
         case 'GET_USERS':
@@ -13,16 +14,22 @@ const UsersReducer = (state = initialState, actions) => {
             return {...state, users: usersArray}
 
         case 'GET_USER_POSTS':
-            let UserPost = actions.userPosts[0]
-            let userKey = actions.userPosts[0].userId - 1
-            let users = state.users
-            users[userKey].post = UserPost
-            return {...state, users}
+            let usersForPosts = state.users
+            let posts = actions.userPosts
+            usersForPosts.map((user)=>{
+                let userPost = posts.find(post => post.userId === user.id)
+                user.post = userPost
+            })
+            return {...state, users: usersForPosts}
 
         case 'GET_USER_PHOTO':
-            let user = state.users
-            user[actions.userId].photo = actions.userPhoto
-            return {...state, users: user}
+            let usersForPhotos = state.users
+            let photos = actions.userPhotos
+            usersForPhotos.map((user) => {
+                let userPhoto = photos.find(photo => photo.albumId === user.id)
+                user.photo = userPhoto.thumbnailUrl
+            })
+            return {...state, users: usersForPhotos}
 
         case 'TOGGLE_IS_LOADER':
             let isLoader = actions.isLoader
@@ -36,7 +43,7 @@ const UsersReducer = (state = initialState, actions) => {
 export const actions = {
     getUsers: (users) => ({type: 'GET_USERS', users}),
     getUserPosts: (userPosts) => ({type: 'GET_USER_POSTS', userPosts}),
-    getUserPhoto: (userId, userPhoto) => ({type: 'GET_USER_PHOTO', userId, userPhoto}),
+    getUserPhoto: (userPhotos) => ({type: 'GET_USER_PHOTO', userPhotos}),
     toggleIsLoader: (isLoader) => ({type: 'TOGGLE_IS_LOADER', isLoader})
 }
 
@@ -45,29 +52,22 @@ export const requestUsers = () => {
         dispatch(actions.toggleIsLoader(true))
         let Response = await usersAPI.getUsers()
         dispatch(actions.getUsers(Response))
+    }
+}
+
+export const requestPosts = () => {
+    return async (dispatch) => {
+        let Response = await usersAPI.getPost()
+        dispatch(actions.getUserPosts(Response.data))
+    }
+}
+
+export const requestPhoto = () => {
+    return async (dispatch) => {
+        let userPhoto = await usersAPI.getPhoto()
+        dispatch(actions.getUserPhoto(userPhoto.data))
         dispatch(actions.toggleIsLoader(false))
     }
 }
-
-export const requestTitle = (userId) => {
-    return async (dispatch) => {
-        dispatch(actions.toggleIsLoader(true))
-        let userPosts = await usersAPI.getPost(userId)
-        dispatch(actions.getUserPosts(userPosts.data))
-        if(userId === 10){
-            dispatch(actions.toggleIsLoader(false))
-        }
-    }
-
-}
-
-export const requestPhoto = (userId) => {
-    return async (dispatch) => {
-        let userPhoto = await usersAPI.getPhoto(userId)
-        dispatch(actions.getUserPhoto(userId - 1, userPhoto.data[0].thumbnailUrl))
-    }
-}
-
-
 
 export default UsersReducer
