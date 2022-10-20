@@ -1,10 +1,10 @@
 let initialState = {
-    isAuth: true,
+    isAuth: false,
     loginInput: '',
     passwordInput: '',
     authorizationData: {
-        login: '1',
-        password: '1'
+        login: 'user',
+        password: 'password'
     },
     isError: false,
 }
@@ -18,7 +18,7 @@ const AuthReducer = (state = initialState, actions) => {
         case 'ON_SUBMIT_LOGIN_FORM':
             let isAuth = state.isAuth
             let isError = state.isError
-            if (state.loginInput === state.authorizationData.login && state.passwordInput === state.authorizationData.password) {
+            if (state.loginInput.toLowerCase() === state.authorizationData.login.toLowerCase() && state.passwordInput === state.authorizationData.password) {
                 isAuth = true
                 isError = false
             } else {
